@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex;">
+    <div id="meet"></div>
+    <div style="margin: 10px;">
+      <strong>Numero de participantes: </strong> <p id="numberOfParticipants"></p>
+    </div>
+  </div>
+  <script src='https://localhost:8443/external_api.js'></script>
+  <script>
+    const domain = 'localhost:8443';
+    const options = {
+        roomName: 'Jitsi',
+        width: 700,
+        height: 700,
+        parentNode: document.querySelector('#meet')
+    };
+    const api = new JitsiMeetExternalAPI(domain, options);
+
+    setInterval(() => {
+
+      api.getCurrentDevices().then(devices => {
+        document.querySelector("#numberOfParticipants")
+        .innerHTML = `
+          <p>audioInput : deviceId => ${devices.audioInput.deviceId}</p>
+          <p>audioInput : groupId => ${devices.audioInput.groupId}</p>
+          <p>audioInput : kind => ${devices.audioInput.kind}</p>
+          <p>audioInput : label => ${devices.audioInput.label}</p>
+          
+          <br />
+          
+          <p>audioOutput : deviceId => ${devices.audioOutput.deviceId}</p>
+          <p>audioOutput : groupId => ${devices.audioOutput.groupId}</p>
+          <p>audioOutput : kind => ${devices.audioOutput.kind}</p>
+          <p>audioOutput : label => ${devices.audioOutput.label}</p>
+
+          <br />
+          
+          <p>videoInput : deviceId => ${devices.videoInput.deviceId}</p>
+          <p>videoInput : groupId => ${devices.videoInput.groupId}</p>
+          <p>videoInput : kind => ${devices.videoInput.kind}</p>
+          <p>videoInput : label => ${devices.videoInput.label}</p>
+        `
+  });
+    }, 1000)
+  </script>
+</body>
+</html>
